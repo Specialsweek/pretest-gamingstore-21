@@ -100,8 +100,15 @@ if (!$product) {
                     <?= nl2br(htmlspecialchars($product['description'])) ?>
                 </div>
 
-                <!-- Placeholder for future functionality like "Add to Cart" -->
-                <button class="btn" onclick="alert('Added to cart! (Demo)')">Add to Cart</button>
+                <!-- Add to Cart Form -->
+                <form method="POST" action="cart_action.php?action=add" style="margin-top: 2rem;">
+                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" name="quantity" value="1" min="1" max="100"
+                            style="padding: 10px; width: 60px; border-radius: 5px; border: 1px solid #444; background: #333; color: #fff;">
+                        <button type="submit" class="btn">Add to Cart</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
