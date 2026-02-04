@@ -42,11 +42,18 @@ $products = $productObj->getAllProducts();
         <div class="product-grid">
             <?php foreach ($products as $product): ?>
                 <div class="product-card">
-                    <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>"
-                        class="product-image" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                    <a href="product_details.php?id=<?= $product['id'] ?>">
+                        <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>"
+                            class="product-image" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                    </a>
                     <div class="product-info">
                         <span class="product-platform"><?= htmlspecialchars($product['category']) ?></span>
-                        <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
+                        <h3 class="product-title">
+                            <a href="product_details.php?id=<?= $product['id'] ?>"
+                                style="color: inherit; text-decoration: none;">
+                                <?= htmlspecialchars($product['name']) ?>
+                            </a>
+                        </h3>
                         <p class="product-price">$<?= number_format($product['price'], 2) ?></p>
 
                         <?php if (isAdmin()): ?>
