@@ -28,6 +28,7 @@ $products = $productObj->getAllProducts();
                     <a href="logout.php" class="btn" style="background-color: #ff4d4d;">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="btn">Login</a>
+                    <a href="register.php" class="btn" style="background-color: #4CAF50;">Register</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -47,13 +48,13 @@ $products = $productObj->getAllProducts();
                         <span class="product-platform"><?= htmlspecialchars($product['category']) ?></span>
                         <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
                         <p class="product-price">$<?= number_format($product['price'], 2) ?></p>
-                        
+
                         <?php if (isAdmin()): ?>
-                        <div class="actions">
-                            <a href="edit.php?id=<?= $product['id'] ?>" class="btn">Edit</a>
-                            <a href="delete.php?id=<?= $product['id'] ?>" class="btn btn-danger"
-                                onclick="return confirm('Are you sure?')">Delete</a>
-                        </div>
+                            <div class="actions">
+                                <a href="edit.php?id=<?= $product['id'] ?>" class="btn">Edit</a>
+                                <a href="delete.php?id=<?= $product['id'] ?>" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure?')">Delete</a>
+                            </div>
                         <?php endif; ?>
                     </div>
                 </div>

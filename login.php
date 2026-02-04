@@ -75,6 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="login-container">
         <h2 style="text-align: center; color: #fff; margin-bottom: 2rem;">Login</h2>
 
+        <?php if (isset($_GET['registered'])): ?>
+            <p style="color: #4CAF50; text-align: center; margin-bottom: 1rem;">Registration successful! Please login.</p>
+        <?php endif; ?>
+
         <?php if (isset($error)): ?>
             <p class="error">
                 <?= htmlspecialchars($error) ?>
@@ -92,8 +96,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="btn btn-full">Sign In</button>
         </form>
-        <p style="text-align: center; margin-top: 1rem;">
-            <a href="index.php" style="color: #4CAF50;">Back to Store</a>
+        <p style="text-align: center; margin-top: 1rem; color: #bbb;">
+            New here? <a href="register.php" style="color: #4CAF50;">Create an Account</a>
+        </p>
+        <p style="text-align: center; margin-top: 0.5rem;">
+            <a href="index.php" style="color: #888; font-size: 0.9em;">Back to Store</a>
         </p>
     </div>
 </body>
