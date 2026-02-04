@@ -110,9 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="btn btn-full">Register</button>
         </form>
-        <p style="text-align: center; margin-top: 1rem; color: #bbb;">
-            Already have an account? <a href="login.php" style="color: #4CAF50;">Login here</a>
-        </p>
+        <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #444; text-align: center;">
+            <p style="color: #bbb; margin-bottom: 1rem;">Already have an account?</p>
+            <a href="login.php" class="btn"
+                style="background-color: #555; display: inline-block; width: 100%; box-sizing: border-box; text-decoration: none;">Login</a>
+        </div>
         <p style="text-align: center; margin-top: 0.5rem;">
             <a href="index.php" style="color: #888; font-size: 0.9em;">Back to Store</a>
         </p>
