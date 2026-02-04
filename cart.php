@@ -143,7 +143,11 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                 <div style="text-align: right;">
                     <a href="cart_action.php?action=clear" class="btn"
                         style="background-color: #777; margin-right: 10px;">Clear Cart</a>
-                    <button class="btn" onclick="alert('Checkout feature coming soon!')">Checkout</button>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="checkout.php" class="btn">Proceed to Checkout</a>
+                    <?php else: ?>
+                        <a href="login.php" class="btn">Login to Checkout</a>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

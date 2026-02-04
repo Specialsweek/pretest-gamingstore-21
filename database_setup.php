@@ -76,6 +76,34 @@
                 ('user', '$userPass', 'user')";
                 $pdo->exec($seedSql);
                 echo "<p class='success'>&#10004; Default users seeded (admin, user).</p>";
+
+                // Create orders table
+                $pdo->exec("DROP TABLE IF EXISTS order_items");
+                $pdo->exec("DROP TABLE IF EXISTS orders");
+
+                $ordersSql = "CREATE TABLE orders (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT NOT NULL,
+                    total_price DECIMAL(10, 2) NOT NULL,
+                    address TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (user_id) REFERENCES users(id)
+                )";
+                $pdo->exec($ordersSql);
+                echo "<p class='success'>&#10004; Table 'orders' created successfully.</p>";
+
+                // Create order_items table
+                $itemsSql = "CREATE TABLE order_items (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    order_id INT NOT NULL,
+                    product_id INT NOT NULL,
+                    quantity INT NOT NULL,
+                    price DECIMAL(10, 2) NOT NULL,
+                    FOREIGN KEY (order_id) REFERENCES orders(id),
+                    FOREIGN KEY (product_id) REFERENCES products(id)
+                )";
+                $pdo->exec($itemsSql);
+                echo "<p class='success'>&#10004; Table 'order_items' created successfully.</p>";
             } catch (PDOException $e) {
                 echo "<p class='error'>&#10008; Error: " . $e->getMessage() . "</p>";
             }
