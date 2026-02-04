@@ -1,6 +1,7 @@
 <?php
 require_once 'db.php';
 require_once 'products.php';
+require_once 'auth_check.php'; // Session started here
 
 $productObj = new Product($pdo);
 $products = $productObj->getAllProducts();
@@ -18,10 +19,24 @@ $products = $productObj->getAllProducts();
 
 <body>
     <div class="container">
-        <h1>Gaming Store</h1>
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <a href="create.php" class="btn">Add New Product</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>Gaming Store</h1>
+            <div>
+                <?php if (isLoggedIn()): ?>
+                    <span style="color: #fff; margin-right: 15px;">Welcome,
+                        <strong><?= htmlspecialchars($_SESSION['username']) ?></strong> (<?= $_SESSION['role'] ?>)</span>
+                    <a href="logout.php" class="btn" style="background-color: #ff4d4d;">Logout</a>
+                <?php else: ?>
+                    <a href="login.php" class="btn">Login</a>
+                <?php endif; ?>
+            </div>
         </div>
+
+        <?php if (isAdmin()): ?>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <a href="create.php" class="btn">Add New Product</a>
+            </div>
+        <?php endif; ?>
 
         <div class="product-grid">
             <?php foreach ($products as $product): ?>
@@ -32,11 +47,14 @@ $products = $productObj->getAllProducts();
                         <span class="product-platform"><?= htmlspecialchars($product['category']) ?></span>
                         <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
                         <p class="product-price">$<?= number_format($product['price'], 2) ?></p>
+                        
+                        <?php if (isAdmin()): ?>
                         <div class="actions">
                             <a href="edit.php?id=<?= $product['id'] ?>" class="btn">Edit</a>
                             <a href="delete.php?id=<?= $product['id'] ?>" class="btn btn-danger"
                                 onclick="return confirm('Are you sure?')">Delete</a>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>

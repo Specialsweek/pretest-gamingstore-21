@@ -1,6 +1,9 @@
 <?php
 require_once 'db.php';
 require_once 'products.php';
+require_once 'auth_check.php';
+
+requireAdmin();
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
