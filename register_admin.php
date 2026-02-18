@@ -53,15 +53,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Create Admin Account - Gaming Store</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         .register-container {
             max-width: 400px;
             margin: 50px auto;
             padding: 2rem;
-            background: #2a2a2a;
+            background: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            border: 1px solid #ff4d4d;
-            /* Red border to indicate Admin stuff */
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff4d4d;
         }
 
         .form-group {
@@ -71,39 +76,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #fff;
+            color: #333;
+            font-weight: 600;
         }
 
         .form-group input {
             width: 100%;
             padding: 0.8rem;
-            border: 1px solid #444;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            background: #333;
-            color: #fff;
+            background: #fff;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
         }
 
         .btn-full {
             width: 100%;
             background-color: #ff4d4d;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        /* Red button for admin */
         .btn-full:hover {
-            background-color: #ff3333;
+            background-color: #cc0000;
         }
 
         .error {
-            color: #ff6b6b;
+            color: #d32f2f;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
             text-align: center;
             margin-bottom: 1rem;
+            border: 1px solid #ffcdd2;
+        }
+
+        h2 {
+            color: #d32f2f;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #d32f2f;
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
     <div class="register-container">
-        <h2 style="text-align: center; color: #fff; margin-bottom: 2rem;">Create Admin Account</h2>
+        <h2>Create Admin Account</h2>
 
         <?php if (isset($error)): ?>
             <p class="error">
@@ -131,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-full">Create Admin</button>
         </form>
         <p style="text-align: center; margin-top: 1rem;">
-            <a href="login.php" style="color: #888;">Back to Login</a>
+            <a href="login.php" class="back-link">Back to Login</a>
         </p>
     </div>
 </body>
