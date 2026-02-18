@@ -26,38 +26,43 @@ $orders = $stmt->fetchAll();
             max-width: 800px;
             margin: 50px auto;
             padding: 2rem;
-            background: #2a2a2a;
+            background: #ffffff;
             border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
         }
 
         .order-card {
-            background: #333;
+            background: #f8f9fa;
             margin-bottom: 1.5rem;
             padding: 1.5rem;
             border-radius: 8px;
-            border-left: 5px solid #4CAF50;
+            border-left: 5px solid #ff4d4d;
+            border: 1px solid #eee;
+            border-left-width: 5px;
+            border-left-color: #ff4d4d;
         }
 
         .order-header {
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid #ddd;
             padding-bottom: 1rem;
             margin-bottom: 1rem;
         }
 
         .order-id {
             font-weight: bold;
-            color: #fff;
+            color: #333;
         }
 
         .order-date {
-            color: #bbb;
+            color: #666;
             font-size: 0.9rem;
         }
 
         .order-total {
-            color: #4CAF50;
+            color: #ff4d4d;
             font-weight: bold;
             font-size: 1.1rem;
         }
@@ -66,7 +71,7 @@ $orders = $stmt->fetchAll();
             list-style: none;
             padding: 0;
             margin: 0;
-            color: #ccc;
+            color: #555;
         }
 
         .item-list li {
@@ -76,12 +81,13 @@ $orders = $stmt->fetchAll();
         }
 
         .success-msg {
-            background: #4caf50;
-            color: white;
+            background: #d4edda;
+            color: #155724;
             padding: 10px;
             border-radius: 5px;
             text-align: center;
             margin-bottom: 2rem;
+            border: 1px solid #c3e6cb;
         }
     </style>
 </head>

@@ -31,45 +31,48 @@ if (!$product) {
         .detail-container {
             max-width: 900px;
             margin: 50px auto;
-            background: #2a2a2a;
+            background: #ffffff;
             padding: 30px;
             border-radius: 10px;
             display: flex;
             gap: 40px;
             align-items: start;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
         }
 
         .detail-image {
             width: 100%;
             max-width: 400px;
             border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .detail-info {
             flex: 1;
-            color: #fff;
+            color: #333;
         }
 
         .detail-price {
             font-size: 2rem;
-            color: #4CAF50;
+            color: #ff4d4d;
             margin: 1rem 0;
             font-weight: bold;
         }
 
         .detail-category {
             display: inline-block;
-            background: #444;
+            background: #eee;
             padding: 5px 10px;
             border-radius: 4px;
             font-size: 0.9rem;
-            color: #bbb;
+            color: #666;
+            border: 1px solid #ddd;
         }
 
         .detail-description {
             line-height: 1.6;
-            color: #ccc;
+            color: #555;
             margin-bottom: 2rem;
             white-space: pre-wrap;
             /* Preserve newlines */
@@ -105,7 +108,7 @@ if (!$product) {
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input type="number" name="quantity" value="1" min="1" max="100"
-                            style="padding: 10px; width: 60px; border-radius: 5px; border: 1px solid #444; background: #333; color: #fff;">
+                            style="padding: 10px; width: 60px; border-radius: 5px; border: 1px solid #ddd; background: #fff; color: #333;">
                         <button type="submit" class="btn">Add to Cart</button>
                     </div>
                 </form>

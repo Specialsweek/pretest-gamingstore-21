@@ -44,27 +44,29 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
             max-width: 600px;
             margin: 50px auto;
             padding: 2rem;
-            background: #2a2a2a;
+            background: #ffffff;
             border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
         }
 
         .summary-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;
-            color: #ccc;
+            color: #333;
         }
 
         .summary-table th,
         .summary-table td {
             padding: 0.5rem;
             text-align: left;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid #eee;
         }
 
         .total-row {
             font-weight: bold;
-            color: #4CAF50;
+            color: #ff4d4d;
             font-size: 1.2rem;
         }
 
@@ -75,27 +77,41 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #fff;
+            color: #333;
+            font-weight: 600;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 1px solid #444;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            background: #333;
-            color: #fff;
+            background: #fff;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
+            outline: none;
         }
 
         .btn-pay {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: #ff4d4d;
             font-size: 1.2rem;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
         .btn-pay:hover {
-            background-color: #45a049;
+            background-color: #d32f2f;
         }
     </style>
 </head>

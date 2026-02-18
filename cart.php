@@ -34,26 +34,29 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
             max-width: 900px;
             margin: 50px auto;
             padding: 2rem;
-            background: #2a2a2a;
+            background: #ffffff;
             border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
         }
 
         .cart-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;
-            color: #fff;
+            color: #333;
         }
 
         .cart-table th,
         .cart-table td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid #eee;
         }
 
         .cart-table th {
-            background: #333;
+            background: #f1f1f1;
+            font-weight: 600;
         }
 
         .cart-image {
@@ -66,14 +69,14 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         .total-section {
             text-align: right;
             font-size: 1.5rem;
-            color: #4CAF50;
+            color: #ff4d4d;
             font-weight: bold;
             margin-bottom: 2rem;
         }
 
         .empty-cart {
             text-align: center;
-            color: #bbb;
+            color: #666;
             padding: 3rem;
         }
 

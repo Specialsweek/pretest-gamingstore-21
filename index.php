@@ -34,7 +34,7 @@ $products = $productObj->getAllProducts();
                 </a>
 
                 <?php if (isLoggedIn()): ?>
-                    <span style="color: #fff; margin-right: 15px;">Welcome,
+                    <span style="color: #333; margin-right: 15px;">Welcome,
                         <strong>
                             <?= htmlspecialchars($_SESSION['username']) ?>
                         </strong> (

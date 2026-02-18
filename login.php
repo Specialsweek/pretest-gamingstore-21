@@ -31,45 +31,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gaming Store</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 2rem;
-            background: #2a2a2a;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
+    body {
+    background-color: #f8f9fa;
+    }
+    .login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
+    .form-group {
+    margin-bottom: 1.5rem;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
+    .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background: #333;
-            color: #fff;
-        }
+    .form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    }
 
-        .btn-full {
-            width: 100%;
-        }
+    .form-group input:focus {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
+    outline: none;
+    }
 
-        .error {
-            color: #ff6b6b;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-    </style>
+    .btn-full {
+    width: 100%;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    }
+
+    .btn-full:hover {
+    background-color: #d32f2f;
+    }
+
+    .error {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 1rem;
+    }
+
+    h2 {
+    color: #d32f2f !important;
+    text-transform: uppercase;
+    }
 </head>
 
 <body>
