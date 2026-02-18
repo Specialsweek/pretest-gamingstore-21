@@ -28,7 +28,8 @@ $products = $productObj->getAllProducts();
                     $cartCount = array_sum($_SESSION['cart']);
                 }
                 ?>
-                <a href="cart.php" class="btn" style="background-color: #f39c12; margin-right: 15px;">
+                <a href="cart.php" class="btn"
+                    style="background-color: #333; color: #fff; margin-right: 15px; border-color: #333;">
                     Cart (
                     <?= $cartCount ?>)
                 </a>
@@ -40,11 +41,12 @@ $products = $productObj->getAllProducts();
                         </strong> (
                         <?= $_SESSION['role'] ?>)
                     </span>
-                    <a href="orders.php" class="btn" style="background-color: #3498db; margin-right: 5px;">My Orders</a>
-                    <a href="logout.php" class="btn" style="background-color: #ff4d4d;">Logout</a>
+                    <a href="orders.php" class="btn"
+                        style="background-color: #555; color: #fff; margin-right: 5px; border-color: #555;">My Orders</a>
+                    <a href="logout.php" class="btn" style="background-color: #ff4d4d; color: #fff;">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="btn">Login</a>
-                    <a href="register.php" class="btn" style="background-color: #4CAF50;">Register</a>
+                    <a href="register.php" class="btn" style="background-color: #ff4d4d; color: #fff;">Register</a>
                 <?php endif; ?>
             </div>
         </div>
