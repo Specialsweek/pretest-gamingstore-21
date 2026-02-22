@@ -124,6 +124,36 @@ h3 {
     color: #000;
 }
 
+.auth-btn {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.login-btn {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+}
+
+.login-btn:hover {
+    background-color: #333;
+}
+
+.logout-btn {
+    background-color: #f8f8f8;
+    color: #ff4d4d;
+    border: 1px solid #e0e0e0;
+}
+
+.logout-btn:hover {
+    background-color: #ffebee;
+    border-color: #ff4d4d;
+}
+
 .cart-badge {
     position: absolute;
     top: -5px;
@@ -135,16 +165,6 @@ h3 {
     padding: 2px 6px;
     border-radius: 10px;
     border: 2px solid #fff;
-}
-
-.logout-link {
-    color: #999;
-    margin-left: 5px;
-    transition: color 0.2s;
-}
-
-.logout-link:hover {
-    color: #ff4d4d;
 }
 
 /* Header Bottom / Navigation */
