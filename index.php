@@ -19,37 +19,7 @@ $products = $productObj->getAllProducts();
 
 <body>
     <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h1>Mirai Gear</h1>
-            <div>
-                <?php
-                $cartCount = 0;
-                if (isset($_SESSION['cart'])) {
-                    $cartCount = array_sum($_SESSION['cart']);
-                }
-                ?>
-                <a href="cart.php" class="btn"
-                    style="background-color: #333; color: #fff; margin-right: 15px; border-color: #333;">
-                    Cart (
-                    <?= $cartCount ?>)
-                </a>
-
-                <?php if (isLoggedIn()): ?>
-                    <span style="color: #333; margin-right: 15px;">Welcome,
-                        <strong>
-                            <?= htmlspecialchars($_SESSION['username']) ?>
-                        </strong> (
-                        <?= $_SESSION['role'] ?>)
-                    </span>
-                    <a href="orders.php" class="btn"
-                        style="background-color: #555; color: #fff; margin-right: 5px; border-color: #555;">My Orders</a>
-                    <a href="logout.php" class="btn" style="background-color: #ff4d4d; color: #fff;">Logout</a>
-                <?php else: ?>
-                    <a href="login.php" class="btn">Login</a>
-                    <a href="register.php" class="btn" style="background-color: #ff4d4d; color: #fff;">Register</a>
-                <?php endif; ?>
-            </div>
-        </div>
+        <!-- Content starts here -->
     </div>
 
     <?php if (isAdmin()): ?>
