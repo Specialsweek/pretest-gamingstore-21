@@ -13,14 +13,14 @@ $products = $productObj->getAllProducts();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Store</title>
+    <title>Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h1>Gaming Store</h1>
+            <h1>Mirai Gear</h1>
             <div>
                 <?php
                 $cartCount = 0;

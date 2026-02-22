@@ -37,7 +37,7 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Gaming Store</title>
+    <title>Checkout - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .checkout-container {

@@ -27,7 +27,7 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Gaming Store</title>
+    <title>Shopping Cart - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .cart-container {
