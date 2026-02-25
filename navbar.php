@@ -2,84 +2,111 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$cartCount = 0;
+if (isset($_SESSION['cart'])) {
+    $cartCount = array_sum($_SESSION['cart']);
+}
 ?>
-<header class="main-header">
-    <div class="header-top">
-        <div class="container header-container">
-            <a href="index.php" class="navbar-brand">Mirai Gear</a>
 
-            <div class="header-search">
-                <form action="index.php" method="GET" class="search-form">
-                    <span class="search-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </span>
-                    <input type="text" name="search" placeholder="ค้นหาสินค้า..." class="search-input">
-                </form>
-            </div>
-
-            <div class="header-actions">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="orders.php" class="action-btn" title="คำสั่งซื้อของฉัน">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </a>
-                <?php endif; ?>
-
-                <?php
-                $cartCount = 0;
-                if (isset($_SESSION['cart'])) {
-                    $cartCount = array_sum($_SESSION['cart']);
-                }
-                ?>
-                <a href="cart.php" class="action-btn cart-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                    </svg>
-                    <?php if ($cartCount > 0): ?>
-                        <span class="cart-badge"><?= $cartCount ?></span>
-                    <?php endif; ?>
-                </a>
-
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php" class="auth-btn logout-btn">
-                        ออกจากระบบ
-                    </a>
-                <?php else: ?>
-                    <a href="login.php" class="auth-btn login-btn">
-                        เข้าสู่ระบบ
-                    </a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="header-bottom">
-        <div class="container nav-container">
-            <button class="category-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="3" width="7" height="7"></rect>
-                    <rect x="14" y="14" width="7" height="7"></rect>
-                    <rect x="3" y="14" width="7" height="7"></rect>
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.php" class="nav-logo">
+            <span class="logo-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
-                หมวดหมู่
+            </span>
+            MIRAI GEAR
+        </a>
+
+        <div class="nav-menu" id="nav-menu">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.php" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php" class="nav-link">Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Promotion</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item mobile-only">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="logout.php" class="nav-link">Logout</a>
+                    <?php else: ?>
+                        <a href="login.php" class="nav-link">Login</a>
+                    <?php endif; ?>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-actions">
+            <a href="cart.php" class="nav-action-btn cart-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <?php if ($cartCount > 0): ?>
+                    <span class="nav-badge"><?= $cartCount ?></span>
+                <?php endif; ?>
+            </a>
+
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="orders.php" class="nav-action-btn desktop-only" title="Orders">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="logout.php" class="nav-auth-btn logout desktop-only">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="nav-auth-btn login desktop-only">Login</a>
+            <?php endif; ?>
+
+            <button class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-            <nav class="main-nav">
-                <a href="index.php" class="nav-item">หน้าแรก</a>
-                <a href="#" class="nav-item">สินค้าทั้งหมด</a>
-                <a href="#" class="nav-item">โปรโมชั่น</a>
-                <a href="#" class="nav-item">บทความ</a>
-                <a href="#" class="nav-item">ติดต่อเรา</a>
-                <a href="#" class="nav-item">เกี่ยวกับเรา</a>
-            </nav>
         </div>
     </div>
-</header>
+</nav>
+
+<script>
+    // Header Scroll Effect
+    window.addEventListener('scroll', function () {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Mobile Menu Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        });
+
+        // Close menu when clicking links
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.classList.remove('overflow-hidden');
+            });
+        });
+    }
+</script>

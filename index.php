@@ -18,7 +18,9 @@ $products = $productObj->getAllProducts();
 </head>
 
 <body>
+    <?php include 'navbar.php'; ?>
     <div class="container">
+
         <!-- Content starts here -->
     </div>
 

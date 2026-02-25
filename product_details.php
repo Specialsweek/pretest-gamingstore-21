@@ -81,7 +81,8 @@ if (!$product) {
 </head>
 
 <body>
-    <div class="container">
+    <?php include 'navbar.php'; ?>
+    <div class="container" style="margin-top: 100px;">
         <a href="index.php" class="back-link" style="margin-left: 0;">&larr; Back to Store</a>
 
         <div class="detail-container">
