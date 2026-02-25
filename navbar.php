@@ -30,7 +30,7 @@ if (isset($_SESSION['cart'])) {
                     <a href="index.php" class="nav-link">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Promotion</a>
+                    <a href="promotions.php" class="nav-link">Promotion</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Contact</a>

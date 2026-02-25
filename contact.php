@@ -1,6 +1,8 @@
 <?php
 require_once 'db.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Fetch contact info
 try {
@@ -74,8 +76,8 @@ try {
         <div style="text-align: center; margin-bottom: 4rem;">
             <h1 style="font-size: 3rem; margin-bottom: 1rem;">GET IN <span style="color: var(--neon-cyan);">TOUCH</span>
             </h1>
-            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Have questions about our
-                hardware? Our team of gaming experts is here to help you build your ultimate battle station.</p>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Our team of gaming experts is
+                here to help you build your ultimate battle station.</p>
         </div>
 
         <?php if ($contact): ?>
@@ -83,50 +85,37 @@ try {
                 <div class="contact-item">
                     <span class="contact-icon">🏢</span>
                     <span class="contact-label">Store Name</span>
-                    <div class="contact-value">
-                        <?= htmlspecialchars($contact['store_name']) ?>
-                    </div>
+                    <div class="contact-value"><?= htmlspecialchars($contact['store_name']) ?></div>
                 </div>
-
                 <div class="contact-item">
                     <span class="contact-icon">📧</span>
                     <span class="contact-label">Email Support</span>
-                    <div class="contact-value"><a href="mailto:<?= htmlspecialchars($contact['email']) ?>"
+                    <div class="contact-value">
+                        <a href="mailto:<?= htmlspecialchars($contact['email']) ?>"
                             style="color: var(--neon-cyan); text-decoration: none;">
                             <?= htmlspecialchars($contact['email']) ?>
-                        </a></div>
+                        </a>
+                    </div>
                 </div>
-
                 <div class="contact-item">
                     <span class="contact-icon">📞</span>
                     <span class="contact-label">Phone Hotline</span>
-                    <div class="contact-value">
-                        <?= htmlspecialchars($contact['phone']) ?>
-                    </div>
+                    <div class="contact-value"><?= htmlspecialchars($contact['phone']) ?></div>
                 </div>
-
                 <div class="contact-item">
                     <span class="contact-icon">📍</span>
                     <span class="contact-label">Headquarters</span>
-                    <div class="contact-value">
-                        <?= htmlspecialchars($contact['address']) ?>
-                    </div>
+                    <div class="contact-value"><?= htmlspecialchars($contact['address']) ?></div>
                 </div>
-
                 <div class="contact-item">
                     <span class="contact-icon">⏰</span>
                     <span class="contact-label">Business Hours</span>
-                    <div class="contact-value">
-                        <?= htmlspecialchars($contact['hours']) ?>
-                    </div>
+                    <div class="contact-value"><?= htmlspecialchars($contact['hours']) ?></div>
                 </div>
-
                 <div class="contact-item">
                     <span class="contact-icon">🌐</span>
                     <span class="contact-label">Social Media</span>
-                    <div class="contact-value">
-                        <?= htmlspecialchars($contact['social_links']) ?>
-                    </div>
+                    <div class="contact-value"><?= htmlspecialchars($contact['social_links']) ?></div>
                 </div>
             </div>
             <p style="text-align: center; color: var(--text-secondary); margin-top: 4rem; font-size: 0.85rem;">
@@ -134,7 +123,7 @@ try {
             </p>
         <?php else: ?>
             <div class="alert alert-error" style="text-align: center;">
-                Contact information is currently unavailable. Please check back later.
+                Contact information is currently unavailable.
             </div>
         <?php endif; ?>
     </div>
