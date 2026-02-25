@@ -22,6 +22,13 @@ if ($action === 'add') {
             $_SESSION['cart'][$id] = $quantity;
         }
     }
+
+    // Check if it's an AJAX request
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        echo json_encode(['status' => 'success', 'cartCount' => array_sum($_SESSION['cart'])]);
+        exit();
+    }
+
     header("Location: cart.php");
     exit();
 }

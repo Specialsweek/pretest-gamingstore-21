@@ -56,10 +56,27 @@ if (isset($_SESSION['cart'])) {
                         <path d="M16 10a4 4 0 0 1-8 0"></path>
                     </svg>
                     <?php if ($cartCount > 0): ?>
-                        <span class="nav-badge"><?= $cartCount ?></span>
+                        <span class="nav-badge" id="cart-badge"><?= $cartCount ?></span>
+                    <?php else: ?>
+                        <span class="nav-badge" id="cart-badge" style="display: none;">0</span>
                     <?php endif; ?>
                 </div>
             </a>
+
+            <script>
+                function updateCartBadge(count) {
+                    const badge = document.getElementById('cart-badge');
+                    if (badge) {
+                        badge.textContent = count;
+                        badge.style.display = count > 0 ? 'block' : 'none';
+                        // Add a small pop animation
+                        badge.style.transform = 'scale(1.3)';
+                        setTimeout(() => {
+                            badge.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                }
+            </script>
 
             <?php if (isset($_SESSION['user_id'])): ?>
                 <a href="profile.php" class="nav-action-btn desktop-only" title="Profile">

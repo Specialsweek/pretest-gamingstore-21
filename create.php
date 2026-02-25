@@ -66,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Case">Case</option>
                         <option value="Monitor">Monitor</option>
                         <option value="Peripherals">Peripherals</option>
+                        <option value="Accessories">Accessories</option>
                     </select>
                 </div>
                 <div class="form-group">

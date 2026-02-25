@@ -24,7 +24,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = "Failed to add promotion.";
             }
         } catch (PDOException $e) {
-            $error = "Database error: " . $e->getMessage();
+            // Auto-repair if column is missing (42S22) or missing default value (1364 / HY000)
+            $errorCode = $e->getCode();
+            $errorInfo = $e->errorInfo;
+
+            if (
+                ($errorCode == '42S22' && strpos($e->getMessage(), 'discount_code') !== false) ||
+                (isset($errorInfo[1]) && $errorInfo[1] == 1364 && strpos($e->getMessage(), 'promo_code') !== false)
+            ) {
+
+                try {
+                    // Fix 1: Ensure discount_code exists
+                    $pdo->exec("ALTER TABLE promotions ADD COLUMN IF NOT EXISTS discount_code VARCHAR(100) DEFAULT NULL AFTER description");
+
+                    // Fix 2: If promo_code exists and is causing errors, make it optional
+                    $cols = $pdo->query("DESCRIBE promotions")->fetchAll(PDO::FETCH_COLUMN);
+                    if (in_array('promo_code', $cols)) {
+                        $pdo->exec("ALTER TABLE promotions MODIFY COLUMN promo_code VARCHAR(100) DEFAULT NULL");
+                    }
+
+                    // Retry once
+                    $stmt = $pdo->prepare("INSERT INTO promotions (title, description, discount_code, expiry_date) VALUES (?, ?, ?, ?)");
+                    if ($stmt->execute([$title, $description, $discount_code, $expiry_date])) {
+                        $message = "Promotion added successfully (Database repaired automatically)!";
+                    } else {
+                        $error = "Failed to add promotion after repair.";
+                    }
+                } catch (PDOException $e2) {
+                    $error = "Repair attempt failed: " . $e2->getMessage();
+                }
+            } else {
+                $error = "Database error: " . $e->getMessage();
+            }
         }
     }
 }

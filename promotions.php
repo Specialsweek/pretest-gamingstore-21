@@ -3,7 +3,12 @@ require_once 'db.php';
 require_once 'auth_check.php';
 
 // Fetch active promotions
-$stmt = $pdo->query("SELECT * FROM promotions WHERE expiry_date >= CURDATE() OR expiry_date IS NULL ORDER BY created_at DESC");
+$now = date('Y-m-d H:i:s');
+$stmt = $pdo->query("SELECT * FROM promotions 
+    WHERE status = 'active' 
+    AND (end_date >= '$now' OR end_date IS NULL)
+    AND (usage_limit IS NULL OR used_count < usage_limit)
+    ORDER BY created_at DESC");
 $promotions = $stmt->fetchAll();
 ?>
 
@@ -62,16 +67,29 @@ $promotions = $stmt->fetchAll();
             margin-bottom: 1rem;
         }
 
-        .promo-code {
+        .promo-code-box {
             background: rgba(255, 255, 255, 0.05);
             border: 1px dashed var(--border-color);
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             font-family: 'Orbitron', sans-serif;
             color: var(--neon-cyan);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             margin: 1.5rem 0;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .promo-code-box:hover {
+            background: rgba(0, 255, 157, 0.1);
+            border-color: var(--neon-cyan);
+        }
+
+        .discount-info {
+            font-weight: 800;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
         }
 
         .expiry {
@@ -87,48 +105,44 @@ $promotions = $stmt->fetchAll();
     <div class="container" style="padding-top: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
             <div>
-                <h1 style="font-size: 2.5rem;">EXCLUSIVE <span style="color: var(--neon-purple);">PROMOTIONS</span></h1>
-                <p style="color: var(--text-secondary);">Upgrade your arsenal with our latest deals and limited-time
-                    offers.</p>
+                <h1 style="font-size: 2.5rem;">EXCLUSIVE <span style="color: var(--neon-purple);">GEAR DEALS</span></h1>
+                <p style="color: var(--text-secondary);">Unlock special discounts with our limited-time promo codes.</p>
             </div>
             <?php if (isAdmin()): ?>
-                <a href="add_promotion.php" class="simple-btn">Add Promotion</a>
+                <a href="add_promotion.php" class="simple-btn">Manage Promotions</a>
             <?php endif; ?>
         </div>
 
         <?php if (empty($promotions)): ?>
             <div class="alert alert-info" style="text-align: center; padding: 4rem;">
-                <p>No active promotions at the moment. Check back soon for epic gear deals!</p>
+                <p>No active promotions at the moment. Keep an eye on our social channels!</p>
             </div>
         <?php else: ?>
             <div class="promo-grid">
                 <?php foreach ($promotions as $promo): ?>
                     <div class="promo-card">
-                        <span class="promo-tag">Limited Offer</span>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">
-                            <?= htmlspecialchars($promo['title']) ?>
-                        </h3>
-                        <p style="color: var(--text-secondary); line-height: 1.6;">
-                            <?= htmlspecialchars($promo['description']) ?>
+                        <span
+                            class="promo-tag"><?= $promo['discount_type'] === 'percent' ? $promo['discount_value'] . '%' : '$' . $promo['discount_value'] ?>
+                            OFF</span>
+                        <div class="discount-info">
+                            <?= $promo['discount_type'] === 'percent' ? $promo['discount_value'] . '% Discount' : '$' . $promo['discount_value'] . ' Discount' ?>
+                        </div>
+                        <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
+                            Min. Spend: $<?= number_format($promo['min_order_amount'], 2) ?>
                         </p>
 
-                        <?php if ($promo['discount_code']): ?>
-                            <div class="promo-code"
-                                onclick="navigator.clipboard.writeText('<?= $promo['discount_code'] ?>'); alert('Code copied!')"
-                                title="Click to copy">
-                                <?= htmlspecialchars($promo['discount_code']) ?>
-                            </div>
-                        <?php endif; ?>
+                        <div class="promo-code-box"
+                            onclick="navigator.clipboard.writeText('<?= $promo['promo_code'] ?>'); alert('Code copied!')"
+                            title="Click to copy">
+                            <?= htmlspecialchars($promo['promo_code']) ?>
+                        </div>
 
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="expiry">
-                                <?php if ($promo['expiry_date']): ?>
-                                    Valid until:
-                                    <?= date('M j, Y', strtotime($promo['expiry_date'])) ?>
-                                <?php else: ?>
-                                    Valid indefinitely
-                                <?php endif; ?>
-                            </span>
+                        <div class="expiry">
+                            <?php if ($promo['end_date']): ?>
+                                Valid until: <?= date('M j, Y', strtotime($promo['end_date'])) ?>
+                            <?php else: ?>
+                                Valid for a limited time
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Category</label>
                     <select name="category">
                         <?php
-                        $categories = ["Graphics Card", "Processor", "Motherboard", "RAM", "Storage", "Power Supply", "Cooling", "Case", "Monitor", "Peripherals"];
+                        $categories = ["Graphics Card", "Processor", "Motherboard", "RAM", "Storage", "Power Supply", "Cooling", "Case", "Monitor", "Peripherals", "Accessories"];
                         foreach ($categories as $cat) {
                             $selected = ($product['category'] == $cat) ? 'selected' : '';
                             echo "<option value=\"$cat\" $selected>$cat</option>";

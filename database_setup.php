@@ -68,11 +68,13 @@
                     user_id INT NOT NULL,
                     total_price DECIMAL(10, 2) NOT NULL,
                     address TEXT NOT NULL,
+                    promo_code VARCHAR(100) DEFAULT NULL,
+                    discount_amount DECIMAL(10, 2) DEFAULT 0.00,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (user_id) REFERENCES users(id)
                 )";
                 $pdo->exec($ordersSql);
-                echo "<p class='success'>&#10004; Table 'orders' created successfully.</p>";
+                echo "<p class='success'>&#10004; Table 'orders' created successfully with promo tracking.</p>";
 
                 // Create order_items table
                 $itemsSql = "CREATE TABLE order_items (
@@ -91,35 +93,20 @@
                 $pdo->exec("DROP TABLE IF EXISTS promotions");
                 $promoSql = "CREATE TABLE promotions (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    title VARCHAR(255) NOT NULL,
-                    description TEXT NOT NULL,
-                    discount_code VARCHAR(100),
-                    expiry_date DATE,
+                    promo_code VARCHAR(100) NOT NULL UNIQUE,
+                    discount_type ENUM('percent', 'fixed') NOT NULL,
+                    discount_value DECIMAL(10, 2) NOT NULL,
+                    min_order_amount DECIMAL(10, 2) DEFAULT 0.00,
+                    max_discount DECIMAL(10, 2) DEFAULT NULL,
+                    start_date DATETIME DEFAULT NULL,
+                    end_date DATETIME DEFAULT NULL,
+                    usage_limit INT DEFAULT NULL,
+                    used_count INT DEFAULT 0,
+                    status ENUM('active', 'inactive') DEFAULT 'active',
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
                 $pdo->exec($promoSql);
-                echo "<p class='success'>&#10004; Table 'promotions' created successfully.</p>";
-
-                // Create contact_info table
-                $pdo->exec("DROP TABLE IF EXISTS contact_info");
-                $contactSql = "CREATE TABLE contact_info (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    store_name VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    phone VARCHAR(50) NOT NULL,
-                    address TEXT NOT NULL,
-                    hours TEXT NOT NULL,
-                    social_links TEXT NOT NULL,
-                    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                )";
-                $pdo->exec($contactSql);
-                echo "<p class='success'>&#10004; Table 'contact_info' created successfully.</p>";
-
-                // Seed contact info
-                $seedContactSql = "INSERT INTO contact_info (store_name, email, phone, address, hours, social_links) VALUES 
-                ('Mirai Gear HQ', 'support@miraigear.com', '+1 (555) 123-4567', '777 Neon Street, Cyber City, Futureland', 'Mon - Sat: 10:00 AM - 10:00 PM', 'Discord: miraigear, Twitter: @MiraiGear, FB: MiraiGearOfficial')";
-                $pdo->exec($seedContactSql);
-                echo "<p class='success'>&#10004; Initial contact info seeded successfully.</p>";
+                echo "<p class='success'>&#10004; Table 'promotions' created successfully with advanced logic.</p>";
 
                 // Re-enable foreign key checks
                 $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
