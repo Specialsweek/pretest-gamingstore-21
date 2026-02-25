@@ -29,62 +29,6 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .cart-container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 2rem;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #ddd;
-        }
-
-        .cart-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-            color: #333;
-        }
-
-        .cart-table th,
-        .cart-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cart-table th {
-            background: #f1f1f1;
-            font-weight: 600;
-        }
-
-        .cart-image {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .total-section {
-            text-align: right;
-            font-size: 1.5rem;
-            color: #ff4d4d;
-            font-weight: bold;
-            margin-bottom: 2rem;
-        }
-
-        .empty-cart {
-            text-align: center;
-            color: #666;
-            padding: 3rem;
-        }
-
-        .btn-sm {
-            padding: 0.3rem 0.6rem;
-            font-size: 0.8rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -92,16 +36,16 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         <a href="index.php" class="back-link">&larr; Continue Shopping</a>
 
         <div class="cart-container">
-            <h1 style="margin-bottom: 2rem; border-bottom: 1px solid #444; padding-bottom: 1rem;">Your Shopping Cart
-            </h1>
+            <h1 style="margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">Your
+                Shopping Cart</h1>
 
             <?php if (empty($cartItems)): ?>
-                <div class="empty-cart">
+                <div class="empty-cart" style="text-align: center; padding: 3rem; color: var(--text-secondary);">
                     <p>Your cart is empty.</p>
-                    <a href="index.php" class="btn" style="margin-top: 1rem;">Browse Products</a>
+                    <a href="index.php" class="simple-btn" style="margin-top: 1rem;">Browse Products</a>
                 </div>
             <?php else: ?>
-                <table class="cart-table">
+                <table>
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -115,7 +59,8 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                     <tbody>
                         <?php foreach ($cartItems as $item): ?>
                             <tr>
-                                <td><img src="<?= htmlspecialchars($item['image']) ?>" class="cart-image"
+                                <td><img src="<?= htmlspecialchars($item['image']) ?>"
+                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;"
                                         onerror="this.src='https://placehold.co/50'"></td>
                                 <td>
                                     <?= htmlspecialchars($item['name']) ?>
@@ -130,26 +75,26 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                                     <?= number_format($item['line_total'], 2) ?>
                                 </td>
                                 <td>
-                                    <a href="cart_action.php?action=remove&id=<?= $item['id'] ?>"
-                                        class="btn btn-danger btn-sm">Remove</a>
+                                    <a href="cart_action.php?action=remove&id=<?= $item['id'] ?>" class="simple-btn"
+                                        style="background: var(--accent); color: #fff; padding: 0.5rem 1rem; font-size: 0.8rem;">Remove</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
 
-                <div class="total-section">
-                    Total: $
-                    <?= number_format($totalPrice, 2) ?>
+                <div
+                    style="text-align: right; font-size: 1.5rem; color: var(--neon-cyan); font-weight: bold; margin-bottom: 2rem;">
+                    Total: $<?= number_format($totalPrice, 2) ?>
                 </div>
 
-                <div style="text-align: right;">
-                    <a href="cart_action.php?action=clear" class="btn"
-                        style="background-color: #777; margin-right: 10px;">Clear Cart</a>
+                <div style="text-align: right; display: flex; justify-content: flex-end; gap: 15px;">
+                    <a href="cart_action.php?action=clear" class="simple-btn"
+                        style="background: rgba(255,255,255,0.05); color: var(--text-primary);">Clear Cart</a>
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="checkout.php" class="btn">Proceed to Checkout</a>
+                        <a href="checkout.php" class="simple-btn">Proceed to Checkout</a>
                     <?php else: ?>
-                        <a href="login.php" class="btn">Login to Checkout</a>
+                        <a href="login.php" class="simple-btn">Login to Checkout</a>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>

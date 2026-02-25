@@ -35,12 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
-        <h1>Add New Hardware</h1>
-        <div class="form-container">
+        <div class="form-container" style="max-width: 700px;">
+            <h1>Add New Hardware</h1>
             <a href="index.php" class="back-link">&larr; Back to Store</a>
 
             <?php if (isset($error)): ?>
-                <p style="color: #ff4d4d; text-align: center;"><?= $error ?></p>
+                <div class="alert alert-error"><?= $error ?></div>
             <?php endif; ?>
 
             <form method="POST" action="">
@@ -68,15 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" name="image" placeholder="https://example.com/gpu.jpg">
+                    <label>Image URL (or Base64)</label>
+                    <input type="text" name="image" placeholder="https://example.com/gpu.jpg">
                 </div>
                 <div class="form-group">
                     <label>Description</label>
                     <textarea name="description" rows="5" placeholder="Product details..."></textarea>
                 </div>
                 <div style="text-align: center;">
-                    <button type="submit" class="btn">Add Product</button>
+                    <button type="submit" class="simple-btn">Add Product</button>
                 </div>
             </form>
         </div>

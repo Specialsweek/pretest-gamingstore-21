@@ -21,75 +21,6 @@ $orders = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Orders - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .orders-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 2rem;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #ddd;
-        }
-
-        .order-card {
-            background: #f8f9fa;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 5px solid #ff4d4d;
-            border: 1px solid #eee;
-            border-left-width: 5px;
-            border-left-color: #ff4d4d;
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .order-id {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .order-date {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .order-total {
-            color: #ff4d4d;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        .item-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            color: #555;
-        }
-
-        .item-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .success-msg {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 2rem;
-            border: 1px solid #c3e6cb;
-        }
-    </style>
 </head>
 
 <body>
@@ -97,32 +28,33 @@ $orders = $stmt->fetchAll();
         <a href="index.php" class="back-link">&larr; Back to Store</a>
 
         <div class="orders-container">
-            <h1 style="margin-bottom: 2rem;">My Order History</h1>
+            <h1 style="margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">My
+                Order History</h1>
 
             <?php if (isset($_GET['success'])): ?>
-                <div class="success-msg">Thank you! Your order has been placed successfully.</div>
+                <div class="alert alert-success" style="margin-bottom: 2rem;">Thank you! Your order has been placed
+                    successfully.</div>
             <?php endif; ?>
 
             <?php if (empty($orders)): ?>
-                <p style="text-align: center; color: #bbb;">You haven't placed any orders yet.</p>
+                <p style="text-align: center; color: var(--text-secondary); padding: 3rem;">You haven't placed any orders
+                    yet.</p>
             <?php else: ?>
                 <?php foreach ($orders as $order): ?>
-                    <div class="order-card">
-                        <div class="order-header">
+                    <div
+                        style="background: rgba(255,255,255,0.02); margin-bottom: 1.5rem; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid var(--neon-cyan);">
+                        <div
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
                             <div>
-                                <div class="order-id">Order #
-                                    <?= $order['id'] ?>
-                                </div>
-                                <div class="order-date">
-                                    <?= $order['created_at'] ?>
-                                </div>
+                                <div style="font-weight: bold; color: var(--text-primary);">Order #<?= $order['id'] ?></div>
+                                <div style="color: var(--text-secondary); font-size: 0.85rem;"><?= $order['created_at'] ?></div>
                             </div>
-                            <div class="order-total">$
-                                <?= number_format($order['total_price'], 2) ?>
+                            <div style="color: var(--neon-cyan); font-weight: bold; font-size: 1.2rem;">
+                                $<?= number_format($order['total_price'], 2) ?>
                             </div>
                         </div>
-                        <div style="margin-bottom: 1rem; font-size: 0.9rem; color: #aaa;">
-                            <strong>Shipping to:</strong>
+                        <div style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            <strong style="color: var(--text-primary);">Shipping to:</strong>
                             <?= htmlspecialchars($order['address']) ?>
                         </div>
 
@@ -137,16 +69,14 @@ $orders = $stmt->fetchAll();
                         $itemStmt->execute([$order['id']]);
                         $items = $itemStmt->fetchAll();
                         ?>
-                        <ul class="item-list">
+                        <ul style="list-style: none; padding: 0; margin: 0; color: var(--text-secondary);">
                             <?php foreach ($items as $item): ?>
-                                <li>
-                                    <span>
-                                        <?= htmlspecialchars($item['name']) ?> (x
-                                        <?= $item['quantity'] ?>)
-                                    </span>
-                                    <span>$
-                                        <?= number_format($item['price'] * $item['quantity'], 2) ?>
-                                    </span>
+                                <li
+                                    style="margin-bottom: 0.5rem; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                                    <span><?= htmlspecialchars($item['name']) ?> <span
+                                            style="color: var(--text-secondary)">(x<?= $item['quantity'] ?>)</span></span>
+                                    <span
+                                        style="color: var(--text-primary);">$<?= number_format($item['price'] * $item['quantity'], 2) ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

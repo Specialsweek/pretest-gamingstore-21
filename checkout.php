@@ -39,81 +39,6 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .checkout-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 2rem;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid #ddd;
-        }
-
-        .summary-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-            color: #333;
-        }
-
-        .summary-table th,
-        .summary-table td {
-            padding: 0.5rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .total-row {
-            font-weight: bold;
-            color: #ff4d4d;
-            font-size: 1.2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fff;
-            color: #333;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #ff4d4d;
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
-            outline: none;
-        }
-
-        .btn-pay {
-            width: 100%;
-            background-color: #ff4d4d;
-            font-size: 1.2rem;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-pay:hover {
-            background-color: #d32f2f;
-        }
-    </style>
 </head>
 
 <body>
@@ -121,9 +46,10 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
         <a href="cart.php" class="back-link">&larr; Back to Cart</a>
 
         <div class="checkout-container">
-            <h1 style="border-bottom: 1px solid #444; padding-bottom: 1rem; margin-bottom: 2rem;">Checkout</h1>
+            <h1 style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">
+                Checkout</h1>
 
-            <table class="summary-table">
+            <table>
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -145,9 +71,9 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                    <tr class="total-row">
-                        <td colspan="2" style="text-align: right;">Total To Pay:</td>
-                        <td>$
+                    <tr style="font-weight: bold; color: var(--neon-cyan); font-size: 1.2rem;">
+                        <td colspan="2" style="text-align: right; border-bottom: none;">Total To Pay:</td>
+                        <td style="border-bottom: none;">$
                             <?= number_format($totalPrice, 2) ?>
                         </td>
                     </tr>
@@ -164,7 +90,8 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
                     <label>Credit Card Number (Fake)</label>
                     <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" required>
                 </div>
-                <button type="submit" class="btn btn-pay">Confirm Order ($
+                <button type="submit" class="simple-btn" style="width: 100%; padding: 15px; font-size: 1.1rem;">Confirm
+                    Order ($
                     <?= number_format($totalPrice, 2) ?>)
                 </button>
             </form>

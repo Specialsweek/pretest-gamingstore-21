@@ -45,111 +45,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .register-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 2rem;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #fff;
-            color: #333;
-        }
-
-        .form-group input:focus {
-            border-color: #ff4d4d;
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
-            outline: none;
-        }
-
-        .btn-full {
-            width: 100%;
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-full:hover {
-            background-color: #d32f2f;
-        }
-
-        .error {
-            color: #d32f2f;
-            background-color: #ffebee;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            color: #d32f2f !important;
-            text-transform: uppercase;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="register-container">
-        <h2 style="text-align: center; color: #fff; margin-bottom: 2rem;">Create Account</h2>
+    <div class="container">
+        <div class="form-container" style="max-width: 400px;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Create Account</h2>
 
-        <?php if (isset($error)): ?>
-            <p class="error">
-                <?= htmlspecialchars($error) ?>
+            <?php if (isset($error)): ?>
+                <div class="alert alert-error">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required minlength="3" placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required minlength="6" placeholder="Min 6 characters">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" required placeholder="Confirm password">
+                </div>
+                <button type="submit" class="simple-btn" style="width: 100%;">Register</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                Already have an account? <a href="login.php" style="color: var(--neon-cyan); font-weight: 600;">Login
+                    here</a>
             </p>
-        <?php endif; ?>
-
-        <form method="POST">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" required minlength="3" placeholder="Choose a username">
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="index.php" class="back-link" style="margin-bottom: 0;">Back to Store</a>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" required minlength="6" placeholder="Min 6 characters">
-            </div>
-            <div class="form-group">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" required placeholder="Confirm password">
-            </div>
-            <button type="submit" class="btn btn-full">Register</button>
-        </form>
-        <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #444; text-align: center;">
-            <p style="color: #bbb; margin-bottom: 1rem;">Already have an account?</p>
-            <a href="login.php" class="btn"
-                style="background-color: #555; display: inline-block; width: 100%; box-sizing: border-box; text-decoration: none;">Login</a>
         </div>
-        <p style="text-align: center; margin-top: 0.5rem;">
-            <a href="index.php" style="color: #888; font-size: 0.9em;">Back to Store</a>
-        </p>
     </div>
 </body>
 

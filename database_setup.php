@@ -6,27 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Setup - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .setup-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 2rem;
-            background: #2a2a2a;
-            border-radius: 10px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .success {
-            color: #4CAF50;
-            margin-bottom: 0.5rem;
-        }
-
-        .error {
-            color: #ff6b6b;
-            margin-bottom: 0.5rem;
-        }
-    </style>
 </head>
 
 <body>
