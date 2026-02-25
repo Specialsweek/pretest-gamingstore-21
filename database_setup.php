@@ -82,31 +82,10 @@
                     quantity INT NOT NULL,
                     price DECIMAL(10, 2) NOT NULL,
                     FOREIGN KEY (order_id) REFERENCES orders(id),
-                    FOREIGN KEY (product_id) REFERENCES products(id)
+                    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
                 )";
                 $pdo->exec($itemsSql);
                 echo "<p class='success'>&#10004; Table 'order_items' created successfully.</p>";
-
-                // Create contact_info table
-                $pdo->exec("DROP TABLE IF EXISTS contact_info");
-                $contactSql = "CREATE TABLE contact_info (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    store_name VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    phone VARCHAR(50) NOT NULL,
-                    address TEXT NOT NULL,
-                    hours TEXT NOT NULL,
-                    social_links TEXT NOT NULL,
-                    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                )";
-                $pdo->exec($contactSql);
-                echo "<p class='success'>&#10004; Table 'contact_info' created successfully.</p>";
-
-                // Seed contact info
-                $seedContactSql = "INSERT INTO contact_info (store_name, email, phone, address, hours, social_links) VALUES 
-                ('Mirai Gear HQ', 'support@miraigear.com', '+1 (555) 123-4567', '777 Neon Street, Cyber City, Futureland', 'Mon - Sat: 10:00 AM - 10:00 PM', 'Discord: miraigear, Twitter: @MiraiGear, FB: MiraiGearOfficial')";
-                $pdo->exec($seedContactSql);
-                echo "<p class='success'>&#10004; Initial contact info seeded successfully.</p>";
 
                 // Re-enable foreign key checks
                 $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");

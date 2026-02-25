@@ -33,13 +33,8 @@ if (isset($_SESSION['cart'])) {
                     <a href="#" class="nav-link">Promotion</a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.php" class="nav-link">Contact</a>
+                    <a href="#" class="nav-link">Contact</a>
                 </li>
-                <?php if (isAdmin()): ?>
-                    <li class="nav-item">
-                        <a href="admin_contact.php" class="nav-link" style="color: var(--neon-cyan);">Manage Contact</a>
-                    </li>
-                <?php endif; ?>
                 <li class="nav-item mobile-only" style="display: none;">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <a href="profile.php" class="nav-link">Profile</a>
