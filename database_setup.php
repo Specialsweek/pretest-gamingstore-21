@@ -37,6 +37,9 @@
             require_once 'db.php';
 
             try {
+                // Disable foreign key checks to allow dropping tables with dependencies
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+
                 // Drop old table to reset schema
                 $pdo->exec("DROP TABLE IF EXISTS products");
 
@@ -44,7 +47,7 @@
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
-        image VARCHAR(255),
+        image LONGTEXT,
         category VARCHAR(50),
         description TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -59,23 +62,23 @@
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
+        email VARCHAR(255) DEFAULT NULL,
+        profit DECIMAL(10, 2) DEFAULT 0.00,
         role ENUM('admin', 'user') DEFAULT 'user',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
                 $pdo->exec($userSql);
-                echo "<p class='success'>&#10004; Table 'users' created successfully.</p>";
+                echo "<p class='success'>&#10004; Table 'users' created successfully with email and profit columns.</p>";
 
                 // Seed users
-                // Admin: admin / admin123
-                // User: user / user123
                 $adminPass = password_hash('admin123', PASSWORD_DEFAULT);
                 $userPass = password_hash('user123', PASSWORD_DEFAULT);
 
-                $seedSql = "INSERT INTO users (username, password, role) VALUES
-                ('admin', '$adminPass', 'admin'),
-                ('user', '$userPass', 'user')";
+                $seedSql = "INSERT INTO users (username, password, email, profit, role) VALUES
+                ('admin', '$adminPass', 'admin@miraigear.com', 5000.00, 'admin'),
+                ('user', '$userPass', 'user@example.com', 120.50, 'user')";
                 $pdo->exec($seedSql);
-                echo "<p class='success'>&#10004; Default users seeded (admin, user).</p>";
+                echo "<p class='success'>&#10004; Default users seeded with email and profit values.</p>";
 
                 // Create orders table
                 $pdo->exec("DROP TABLE IF EXISTS order_items");
@@ -104,7 +107,12 @@
                 )";
                 $pdo->exec($itemsSql);
                 echo "<p class='success'>&#10004; Table 'order_items' created successfully.</p>";
+
+                // Re-enable foreign key checks
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
             } catch (PDOException $e) {
+                // Ensure foreign key checks are re-enabled even on failure
+                $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
                 echo "<p class='error'>&#10008; Error: " . $e->getMessage() . "</p>";
             }
             ?>

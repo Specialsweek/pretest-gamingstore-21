@@ -24,6 +24,7 @@ $products = $productObj->getAllProducts();
             <div>
                 <a href="cart.php" class="simple-btn" style="margin-right: 10px;">Cart</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="profile.php" class="simple-btn" style="margin-right: 10px;">Profile</a>
                     <a href="logout.php" class="simple-btn">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="simple-btn">Login</a>
