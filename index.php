@@ -18,8 +18,19 @@ $products = $productObj->getAllProducts();
 </head>
 
 <body>
-    <?php include 'navbar.php'; ?>
     <div class="container">
+        <header class="header-container">
+            <h1 style="margin: 0; font-family: 'Orbitron'; font-size: 1.5rem; color: var(--neon-cyan);">MIRAI GEAR</h1>
+            <div>
+                <a href="cart.php" class="simple-btn" style="margin-right: 10px;">Cart</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="logout.php" class="simple-btn">Logout</a>
+                <?php else: ?>
+                    <a href="login.php" class="simple-btn">Login</a>
+                <?php endif; ?>
+            </div>
+        </header>
+
 
         <!-- Content starts here -->
     </div>
