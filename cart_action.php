@@ -16,23 +16,10 @@ if ($action === 'add') {
     $quantity = (int) ($_POST['quantity'] ?? 1);
 
     if ($id && $quantity > 0) {
-        $productObj = new Product($pdo);
-        $product = $productObj->getProductById($id);
-
-        if ($product) {
-            $currentInCart = $_SESSION['cart'][$id] ?? 0;
-            $newTotal = $currentInCart + $quantity;
-
-            if ($newTotal <= $product['stock']) {
-                $_SESSION['cart'][$id] = $newTotal;
-            } else {
-                // If AJAX, return error
-                if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                    echo json_encode(['status' => 'error', 'message' => 'Not enough stock!']);
-                    exit();
-                }
-                // If normal request, maybe set a session flash message (optional)
-            }
+        if (isset($_SESSION['cart'][$id])) {
+            $_SESSION['cart'][$id] += $quantity;
+        } else {
+            $_SESSION['cart'][$id] = $quantity;
         }
     }
 

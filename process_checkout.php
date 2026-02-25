@@ -51,43 +51,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo->beginTransaction();
 
-        // 1. Lock rows and check stock for all items
-        foreach ($cartItems as &$item) {
-            $stmt = $pdo->prepare("SELECT stock FROM products WHERE id = ? FOR UPDATE");
-            $stmt->execute([$item['id']]);
-            $currentStock = $stmt->fetchColumn();
-
-            if ($currentStock < $item['quantity']) {
-                throw new Exception("Insufficient stock for one of the items. Please check your cart.");
-            }
-            $item['remaining_stock'] = $currentStock - $item['quantity'];
-        }
-
-        // 2. Create Order
+        // 1. Create Order
         $stmt = $pdo->prepare("INSERT INTO orders (user_id, total_price, address, promo_code, discount_amount) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$userId, $finalTotal, $address, $promoCode ?: null, $discountAmount]);
         $orderId = $pdo->lastInsertId();
 
-        // 3. Create Order Items & Deduct Stock
+        // 2. Create Order Items
         $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
-        $stockStmt = $pdo->prepare("UPDATE products SET stock = ? WHERE id = ?");
-
         foreach ($cartItems as $item) {
             $itemStmt->execute([$orderId, $item['id'], $item['quantity'], $item['price']]);
-            $stockStmt->execute([$item['remaining_stock'], $item['id']]);
         }
 
-        // 4. Increment Promo Usage
+        // 3. Increment Promo Usage
         if ($promoId) {
             $promoObj->incrementUsage($promoId);
         }
 
         $pdo->commit();
 
-        // 5. Clear Cart
+        // 3. Clear Cart
         unset($_SESSION['cart']);
 
-        // 6. Redirect to Orders page
+        // 4. Redirect to Orders page
         header("Location: orders.php?success=1");
         exit();
 

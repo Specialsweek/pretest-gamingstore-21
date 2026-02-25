@@ -49,16 +49,6 @@ if (!$product) {
             <p class="detail-price">$
                 <?= number_format($product['price'], 2) ?>
             </p>
-            <div class="stock-status" style="margin-bottom: 1.5rem; font-size: 1rem; font-weight: bold;">
-                <?php if ($product['stock'] > $product['low_stock_threshold']): ?>
-                    <span style="color: #00FF9D;">In Stock (<?= $product['stock'] ?> left)</span>
-                <?php elseif ($product['stock'] > 0): ?>
-                    <span style="color: #FFB800;">Low Stock! (<?= $product['stock'] ?> left)</span>
-                <?php else: ?>
-                    <span style="color: #FF0055;">Out of Stock</span>
-                <?php endif; ?>
-            </div>
-
             <div class="detail-description">
                 <?= nl2br(htmlspecialchars($product['description'])) ?>
             </div>
@@ -67,14 +57,9 @@ if (!$product) {
             <form method="POST" action="cart_action.php?action=add" style="margin-top: 2rem;">
                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <?php if ($product['stock'] > 0): ?>
-                        <input type="number" name="quantity" value="1" min="1" max="<?= $product['stock'] ?>"
-                            style="padding: 10px; width: 80px; border-radius: 5px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.3); color: white;">
-                        <button type="submit" class="btn">Add to Cart</button>
-                    <?php else: ?>
-                        <button type="button" class="btn" disabled
-                            style="opacity: 0.5; cursor: not-allowed; background: #333;">Out of Stock</button>
-                    <?php endif; ?>
+                    <input type="number" name="quantity" value="1" min="1" max="100"
+                        style="padding: 10px; width: 60px; border-radius: 5px; border: 1px solid #ddd; background: #fff; color: #333;">
+                    <button type="submit" class="btn">Add to Cart</button>
                 </div>
             </form>
         </div>

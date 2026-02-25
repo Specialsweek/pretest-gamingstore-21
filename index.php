@@ -52,27 +52,17 @@ $products = $productObj->getAllProducts();
                         <?= number_format($product['price'], 2) ?>
                     </p>
 
-                    <div class="stock-status" style="margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold;">
-                        <?php if ($product['stock'] > $product['low_stock_threshold']): ?>
-                            <span style="color: #00FF9D;">In Stock (<?= $product['stock'] ?> left)</span>
-                        <?php elseif ($product['stock'] > 0): ?>
-                            <span style="color: #FFB800;">Low Stock! (<?= $product['stock'] ?> left)</span>
-                        <?php else: ?>
-                            <span style="color: #FF0055;">Out of Stock</span>
-                        <?php endif; ?>
-                    </div>
-
                     <form method="POST" action="cart_action.php?action=add" class="quick-add-form">
                         <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                         <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="quick-add-btn" <?= $product['stock'] <= 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : '' ?>>
+                        <button type="submit" class="quick-add-btn">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="9" cy="21" r="1"></circle>
                                 <circle cx="20" cy="21" r="1"></circle>
                                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                             </svg>
-                            <?= $product['stock'] <= 0 ? 'Out of Stock' : 'Add to Cart' ?>
+                            Add to Cart
                         </button>
                     </form>
 

@@ -29,8 +29,6 @@
         image LONGTEXT,
         category VARCHAR(50),
         description TEXT,
-        stock INT NOT NULL DEFAULT 0,
-        low_stock_threshold INT DEFAULT 5,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 

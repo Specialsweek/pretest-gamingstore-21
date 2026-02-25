@@ -13,10 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = $_POST['image'];
     $category = $_POST['category'];
     $description = $_POST['description'];
-    $stock = (int) $_POST['stock'];
-    $low_stock_threshold = (int) $_POST['low_stock_threshold'];
 
-    if ($productObj->createProduct($name, $price, $image, $category, $description, $stock, $low_stock_threshold)) {
+    if ($productObj->createProduct($name, $price, $image, $category, $description)) {
         header("Location: index.php");
         exit();
     } else {
@@ -75,17 +73,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label>Image URL (or Base64)</label>
                     <input type="text" name="image" placeholder="https://example.com/gpu.jpg">
                 </div>
-                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div>
-                        <label>Initial Stock</label>
-                        <input type="number" name="stock" value="0" min="0" required>
-                    </div>
-                    <div>
-                        <label>Low Stock Alert Threshold</label>
-                        <input type="number" name="low_stock_threshold" value="5" min="0">
-                    </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="5" placeholder="Product details..."></textarea>
                 </div>
-                <div style="text-align: center; margin-top: 1rem;">
+                <div style="text-align: center;">
                     <button type="submit" class="simple-btn">Add Product</button>
                 </div>
             </form>
