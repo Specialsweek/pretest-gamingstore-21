@@ -32,13 +32,10 @@ if (isset($_SESSION['cart'])) {
                 <li class="nav-item">
                     <a href="promotions.php" class="nav-link">Promotion</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
                 <li class="nav-item mobile-only" style="display: none;">
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="profile.php" class="nav-link">Profile</a>
-                        <br><br>
+                        <a href="admin_users.php" class="nav-link">Manage Users</a>
+                        <a href="admin_inventory.php" class="nav-link">Inventory</a>
                         <a href="logout.php" class="nav-link" style="color: var(--accent);">Logout</a>
                     <?php else: ?>
                         <a href="login.php" class="nav-link" style="color: var(--neon-cyan);">Login</a>
