@@ -607,3 +607,77 @@ a:hover {
         padding: 1.5rem;
     }
 }
+
+/* Stock Status Styles */
+.stock-status {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.stock-status.in-stock {
+    color: #00ff88;
+}
+
+.stock-status.low-stock {
+    color: #ffb800;
+    animation: pulse 2s infinite;
+}
+
+.stock-status.out-of-stock {
+    color: #ff4d4d;
+}
+
+.stock-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.badge-in {
+    background: rgba(0, 255, 136, 0.1);
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.badge-low {
+    background: rgba(255, 184, 0, 0.1);
+    color: #ffb800;
+    border: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+.badge-out {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Disabled State */
+.btn:disabled,
+.quick-add-btn:disabled,
+.simple-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #333 !important;
+    border-color: #555 !important;
+    color: #888 !important;
+    box-shadow: none !important;
+}

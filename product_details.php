@@ -53,13 +53,24 @@ if (!$product) {
                 <?= nl2br(htmlspecialchars($product['description'])) ?>
             </div>
 
+            <?php if ($product['stock'] <= 0): ?>
+                <div class="stock-status out-of-stock">OUT OF STOCK</div>
+            <?php elseif ($product['stock'] <= $product['low_stock_threshold']): ?>
+                <div class="stock-status low-stock">LOW STOCK: Only <?= $product['stock'] ?> left!</div>
+            <?php else: ?>
+                <div class="stock-status in-stock">IN STOCK: <?= $product['stock'] ?> available</div>
+            <?php endif; ?>
+
             <!-- Add to Cart Form -->
             <form method="POST" action="cart_action.php?action=add" style="margin-top: 2rem;">
                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="number" name="quantity" value="1" min="1" max="100"
+                    <input type="number" name="quantity" value="1" min="1" max="<?= $product['stock'] ?>"
+                        <?= ($product['stock'] <= 0) ? 'disabled' : '' ?>
                         style="padding: 10px; width: 60px; border-radius: 5px; border: 1px solid #ddd; background: #fff; color: #333;">
-                    <button type="submit" class="btn">Add to Cart</button>
+                    <button type="submit" class="btn" <?= ($product['stock'] <= 0) ? 'disabled' : '' ?>>
+                        <?= ($product['stock'] <= 0) ? 'Sold Out' : 'Add to Cart' ?>
+                    </button>
                 </div>
             </form>
         </div>

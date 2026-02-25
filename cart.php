@@ -71,6 +71,13 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                                 </td>
                                 <td>
                                     <?= $item['quantity'] ?>
+                                    <?php if ($item['quantity'] > $item['stock']): ?>
+                                        <div style="color: var(--accent); font-size: 0.75rem; font-weight: bold; margin-top: 5px;">
+                                            ⚠ Only <?= $item['stock'] ?> items remaining!
+                                            <a href="cart_action.php?action=remove&id=<?= $item['id'] ?>"
+                                                style="color: inherit; text-decoration: underline;">Adjust</a>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                                 <td>$
                                     <?= number_format($item['line_total'], 2) ?>

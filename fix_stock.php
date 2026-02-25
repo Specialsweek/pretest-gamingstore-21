@@ -10,7 +10,7 @@ try {
 
     if (!in_array('stock', $columns)) {
         echo "<p>Adding 'stock' column...</p>";
-        $pdo->exec("ALTER TABLE products ADD COLUMN stock INT NOT NULL DEFAULT 50 AFTER image_url");
+        $pdo->exec("ALTER TABLE products ADD COLUMN stock INT NOT NULL DEFAULT 50 AFTER image");
         echo "<p style='color: green;'>&#10004; Column 'stock' added (Defaulted to 50 for existing items).</p>";
     }
 

@@ -56,10 +56,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$userId, $finalTotal, $address, $promoCode ?: null, $discountAmount]);
         $orderId = $pdo->lastInsertId();
 
-        // 2. Create Order Items
+        // 2. Create Order Items and Update Stock
         $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+        $stockStmt = $pdo->prepare("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?");
+
         foreach ($cartItems as $item) {
+            // Re-verify stock inside transaction
+            $checkStmt = $pdo->prepare("SELECT stock, name FROM products WHERE id = ? FOR UPDATE");
+            $checkStmt->execute([$item['id']]);
+            $pData = $checkStmt->fetch();
+
+            if ($pData['stock'] < $item['quantity']) {
+                throw new Exception("Insufficient stock for " . $pData['name']);
+            }
+
             $itemStmt->execute([$orderId, $item['id'], $item['quantity'], $item['price']]);
+
+            $stockUpdate = $stockStmt->execute([$item['quantity'], $item['id'], $item['quantity']]);
+            if (!$stockUpdate || $stockStmt->rowCount() == 0) {
+                throw new Exception("Failed to update stock for " . $pData['name']);
+            }
         }
 
         // 3. Increment Promo Usage

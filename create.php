@@ -13,8 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = $_POST['image'];
     $category = $_POST['category'];
     $description = $_POST['description'];
+    $stock = $_POST['stock'];
+    $low_stock_threshold = $_POST['low_stock_threshold'];
 
-    if ($productObj->createProduct($name, $price, $image, $category, $description)) {
+    if ($productObj->createProduct($name, $price, $image, $category, $description, $stock, $low_stock_threshold)) {
         header("Location: index.php");
         exit();
     } else {
@@ -41,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a href="index.php" class="back-link">&larr; Back to Store</a>
 
             <?php if (isset($error)): ?>
-                <div class="alert alert-error"><?= $error ?></div>
+                <div class="alert alert-error">
+                    <?= $error ?>
+                </div>
             <?php endif; ?>
 
             <form method="POST" action="">
@@ -69,6 +73,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Accessories">Accessories</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" name="stock" value="10" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Low Stock Threshold</label>
+                    <input type="number" name="low_stock_threshold" value="5" min="0" required>
+                </div>
+
                 <div class="form-group">
                     <label>Image URL (or Base64)</label>
                     <input type="text" name="image" placeholder="https://example.com/gpu.jpg">

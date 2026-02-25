@@ -26,8 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = $_POST['image'];
     $category = $_POST['category'];
     $description = $_POST['description'];
+    $stock = $_POST['stock'];
+    $low_stock_threshold = $_POST['low_stock_threshold'];
 
-    if ($productObj->updateProduct($id, $name, $price, $image, $category, $description)) {
+    if ($productObj->updateProduct($id, $name, $price, $image, $category, $description, $stock, $low_stock_threshold)) {
         header("Location: index.php");
         exit();
     } else {
@@ -82,6 +84,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group">
                     <label>Image URL (or Base64)</label>
                     <input type="text" name="image" value="<?= htmlspecialchars($product['image']) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" name="stock" value="<?= htmlspecialchars($product['stock']) ?>" min="0"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Low Stock Threshold</label>
+                    <input type="number" name="low_stock_threshold"
+                        value="<?= htmlspecialchars($product['low_stock_threshold']) ?>" min="0" required>
                 </div>
                 <div class="form-group">
                     <label>Description</label>

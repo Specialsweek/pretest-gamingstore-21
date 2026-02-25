@@ -16,16 +16,29 @@ if ($action === 'add') {
     $quantity = (int) ($_POST['quantity'] ?? 1);
 
     if ($id && $quantity > 0) {
-        if (isset($_SESSION['cart'][$id])) {
-            $_SESSION['cart'][$id] += $quantity;
-        } else {
-            $_SESSION['cart'][$id] = $quantity;
+        $productObj = new Product($pdo);
+        $product = $productObj->getProductById($id);
+
+        if ($product) {
+            $currentInCart = $_SESSION['cart'][$id] ?? 0;
+            $newQuantity = $currentInCart + $quantity;
+
+            if ($newQuantity <= $product['stock']) {
+                $_SESSION['cart'][$id] = $newQuantity;
+                $success = true;
+            } else {
+                $error = "Insufficient stock. Only " . $product['stock'] . " left.";
+            }
         }
     }
 
     // Check if it's an AJAX request
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-        echo json_encode(['status' => 'success', 'cartCount' => array_sum($_SESSION['cart'])]);
+        if (isset($error)) {
+            echo json_encode(['status' => 'error', 'message' => $error]);
+        } else {
+            echo json_encode(['status' => 'success', 'cartCount' => array_sum($_SESSION['cart'])]);
+        }
         exit();
     }
 

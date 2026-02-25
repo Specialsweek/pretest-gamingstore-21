@@ -23,18 +23,18 @@ class Product
         return $stmt->fetch();
     }
 
-    public function createProduct($name, $price, $image, $category, $description)
+    public function createProduct($name, $price, $image, $category, $description, $stock = 0, $low_stock_threshold = 5)
     {
-        $sql = "INSERT INTO products (name, price, image, category, description) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO products (name, price, image, category, description, stock, low_stock_threshold) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$name, $price, $image, $category, $description]);
+        return $stmt->execute([$name, $price, $image, $category, $description, $stock, $low_stock_threshold]);
     }
 
-    public function updateProduct($id, $name, $price, $image, $category, $description)
+    public function updateProduct($id, $name, $price, $image, $category, $description, $stock, $low_stock_threshold)
     {
-        $sql = "UPDATE products SET name = ?, price = ?, image = ?, category = ?, description = ? WHERE id = ?";
+        $sql = "UPDATE products SET name = ?, price = ?, image = ?, category = ?, description = ?, stock = ?, low_stock_threshold = ? WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$name, $price, $image, $category, $description, $id]);
+        return $stmt->execute([$name, $price, $image, $category, $description, $stock, $low_stock_threshold, $id]);
     }
 
     public function deleteProduct($id)
