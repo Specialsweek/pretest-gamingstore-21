@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <?php require_once 'navbar.php'; ?>
     <div class="container">
         <div class="form-container" style="max-width: 400px;">
             <h2 style="text-align: center; margin-bottom: 2rem;">Create Account</h2>

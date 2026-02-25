@@ -19,18 +19,7 @@ $products = $productObj->getAllProducts();
 
 <body>
     <div class="container">
-        <header class="header-container">
-            <h1 class="logo">MIRAI GEAR</h1>
-            <div class="header-actions">
-                <a href="cart.php" class="simple-btn">Cart</a>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="profile.php" class="simple-btn">Profile</a>
-                    <a href="logout.php" class="simple-btn btn-secondary">Logout</a>
-                <?php else: ?>
-                    <a href="login.php" class="simple-btn">Login</a>
-                <?php endif; ?>
-            </div>
-        </header>
+        <?php require_once 'navbar.php'; ?>
 
 
         <!-- Content starts here -->

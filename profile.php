@@ -50,6 +50,7 @@ try {
 </head>
 
 <body>
+    <?php require_once 'navbar.php'; ?>
     <div class="container">
         <a href="index.php" class="back-link">&larr; Back to Store</a>
 

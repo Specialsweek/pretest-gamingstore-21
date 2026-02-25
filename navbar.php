@@ -35,8 +35,10 @@ if (isset($_SESSION['cart'])) {
                 <li class="nav-item">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
-                <li class="nav-item mobile-only">
+                <li class="nav-item mobile-only" style="display: none;">
                     <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="profile.php" class="nav-link">Profile</a>
+                        <br><br>
                         <a href="logout.php" class="nav-link" style="color: var(--accent);">Logout</a>
                     <?php else: ?>
                         <a href="login.php" class="nav-link" style="color: var(--neon-cyan);">Login</a>
@@ -60,7 +62,7 @@ if (isset($_SESSION['cart'])) {
             </a>
 
             <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="orders.php" class="nav-action-btn desktop-only" title="Account">
+                <a href="profile.php" class="nav-action-btn desktop-only" title="Profile">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
@@ -71,7 +73,7 @@ if (isset($_SESSION['cart'])) {
                 <a href="login.php" class="nav-auth-btn login desktop-only">Login</a>
             <?php endif; ?>
 
-            <button class="nav-toggle" id="nav-toggle">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -80,16 +82,15 @@ if (isset($_SESSION['cart'])) {
     </div>
 </nav>
 
-
 <script>
     // Header Scroll Effect
-    window.addEventListener('scroll', func tion() {
+    window.addEventListener('scroll', function () {
         const navbar = document.getElementById('navbar');
-        if(window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     });
 
     // Mobile Menu Toggle
@@ -97,10 +98,20 @@ if (isset($_SESSION['cart'])) {
     const navMenu = document.getElementById('nav-menu');
 
     if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             navMenu.classList.toggle('active');
             navToggle.classList.toggle('active');
-            document.body.classList.toggle('overflow-hidden');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
 
         // Close menu when clicking links
@@ -109,7 +120,7 @@ if (isset($_SESSION['cart'])) {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 navToggle.classList.remove('active');
-                document.body.classList.remove('overflow-hidden');
+                document.body.style.overflow = 'auto';
             });
         });
     }

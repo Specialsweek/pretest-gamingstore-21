@@ -42,6 +42,7 @@ foreach ($_SESSION['cart'] as $id => $quantity) {
 </head>
 
 <body>
+    <?php require_once 'navbar.php'; ?>
     <div class="container">
         <a href="cart.php" class="back-link">&larr; Back to Cart</a>
 

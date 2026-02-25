@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <?php require_once 'navbar.php'; ?>
     <div class="container">
         <div class="form-container" style="max-width: 700px;">
             <h1>Add New Hardware</h1>

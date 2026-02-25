@@ -32,6 +32,7 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
 </head>
 
 <body>
+    <?php require_once 'navbar.php'; ?>
     <div class="container">
         <a href="index.php" class="back-link">&larr; Continue Shopping</a>
 
