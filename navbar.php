@@ -37,9 +37,9 @@ if (isset($_SESSION['cart'])) {
                 </li>
                 <li class="nav-item mobile-only">
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="logout.php" class="nav-link">Logout</a>
+                        <a href="logout.php" class="nav-link" style="color: var(--accent);">Logout</a>
                     <?php else: ?>
-                        <a href="login.php" class="nav-link">Login</a>
+                        <a href="login.php" class="nav-link" style="color: var(--neon-cyan);">Login</a>
                     <?php endif; ?>
                 </li>
             </ul>
@@ -83,13 +83,13 @@ if (isset($_SESSION['cart'])) {
 
 <script>
     // Header Scroll Effect
-    window.addEventListener('scroll', func tion () {
+    window.addEventListener('scroll', func tion() {
         const navbar = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        if(window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
     });
 
     // Mobile Menu Toggle
