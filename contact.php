@@ -4,7 +4,7 @@ session_start();
 
 // Fetch contact info
 try {
-    $stmt = $pdo->query("SELECT * FROM contact_info ORDER BY updated_at DESC LIMIT 1");
+    $stmt = $pdo->query("SELECT * FROM contact_info ORDER BY last_updated DESC LIMIT 1");
     $contact = $stmt->fetch();
 } catch (PDOException $e) {
     $contact = null;
@@ -129,6 +129,9 @@ try {
                     </div>
                 </div>
             </div>
+            <p style="text-align: center; color: var(--text-secondary); margin-top: 4rem; font-size: 0.85rem;">
+                Information last verified: <?= date('F j, Y', strtotime($contact['last_updated'])) ?>
+            </p>
         <?php else: ?>
             <div class="alert alert-error" style="text-align: center;">
                 Contact information is currently unavailable. Please check back later.

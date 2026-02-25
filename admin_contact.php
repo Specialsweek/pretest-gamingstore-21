@@ -7,61 +7,43 @@ requireAdmin();
 $message = '';
 $error = '';
 
-// Handle CRUD operations
+// Handle Submit/Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['action'])) {
-        $action = $_POST['action'];
+    if (isset($_POST['action']) && $_POST['action'] === 'update') {
+        $store_name = trim($_POST['store_name']);
+        $email = trim($_POST['email']);
+        $phone = trim($_POST['phone']);
+        $address = trim($_POST['address']);
+        $hours = trim($_POST['hours']);
+        $social_links = trim($_POST['social_links']);
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
 
-        if ($action === 'add' || $action === 'edit') {
-            $store_name = trim($_POST['store_name']);
-            $email = trim($_POST['email']);
-            $phone = trim($_POST['phone']);
-            $address = trim($_POST['address']);
-            $hours = trim($_POST['hours']);
-            $social_links = trim($_POST['social_links']);
-            $id = isset($_POST['id']) ? (int) $_POST['id'] : null;
-
-            // Simple validation
-            if (empty($store_name) || empty($email) || empty($phone) || empty($address)) {
-                $error = "Please fill in all required fields.";
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "Invalid email format.";
-            } else {
-                try {
-                    if ($action === 'add') {
-                        $stmt = $pdo->prepare("INSERT INTO contact_info (store_name, email, phone, address, hours, social_links) VALUES (?, ?, ?, ?, ?, ?)");
-                        $stmt->execute([$store_name, $email, $phone, $address, $hours, $social_links]);
-                        $message = "Contact info added successfully!";
-                    } else {
-                        $stmt = $pdo->prepare("UPDATE contact_info SET store_name = ?, email = ?, phone = ?, address = ?, hours = ?, social_links = ? WHERE id = ?");
-                        $stmt->execute([$store_name, $email, $phone, $address, $hours, $social_links, $id]);
-                        $message = "Contact info updated successfully!";
-                    }
-                } catch (PDOException $e) {
-                    $error = "Database error: " . $e->getMessage();
-                }
-            }
-        } elseif ($action === 'delete' && isset($_POST['id'])) {
+        // Validation
+        if (empty($store_name) || empty($email) || empty($phone) || empty($address)) {
+            $error = "Please fill in all required fields (Store Name, Email, Phone, Address).";
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Invalid email format.";
+        } else {
             try {
-                $stmt = $pdo->prepare("DELETE FROM contact_info WHERE id = ?");
-                $stmt->execute([(int) $_POST['id']]);
-                $message = "Contact record deleted successfully!";
+                $stmt = $pdo->prepare("UPDATE contact_info SET store_name = ?, email = ?, phone = ?, address = ?, hours = ?, social_links = ? WHERE id = ?");
+                $stmt->execute([$store_name, $email, $phone, $address, $hours, $social_links, $id]);
+                $message = "Contact information updated successfully!";
             } catch (PDOException $e) {
-                $error = "Delete failed: " . $e->getMessage();
+                $error = "Database error: " . $e->getMessage();
             }
         }
     }
 }
 
-// Fetch all contact records
-$contacts = $pdo->query("SELECT * FROM contact_info ORDER BY updated_at DESC")->fetchAll();
+// Fetch the contact record (assuming one for now, or edit by ID if specified)
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 1;
+$stmt = $pdo->prepare("SELECT * FROM contact_info WHERE id = ?");
+$stmt->execute([$id]);
+$contact = $stmt->fetch();
 
-// If editing, fetch specific record
-$edit_contact = null;
-if (isset($_GET['edit_id'])) {
-    $stmt = $pdo->prepare("SELECT * FROM contact_info WHERE id = ?");
-    $stmt->execute([(int) $_GET['edit_id']]);
-    $edit_contact = $stmt->fetch();
+if (!$contact) {
+    // Fallback if record 1 is missing
+    $contact = $pdo->query("SELECT * FROM contact_info LIMIT 1")->fetch();
 }
 ?>
 
@@ -71,32 +53,49 @@ if (isset($_GET['edit_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin: Contact Management - Mirai Gear</title>
+    <title>Admin: Contact Edit - Mirai Gear</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .admin-layout {
+            display: flex;
             gap: 2rem;
-            align-items: start;
+            min-height: calc(100vh - 100px);
         }
 
-        @media (max-width: 992px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .data-table-container {
+        .admin-sidebar {
+            width: 250px;
             background: var(--card-bg);
-            padding: 1.5rem;
             border-radius: 12px;
             border: 1px solid var(--border-color);
+            padding: 1.5rem;
         }
 
-        .action-btns {
-            display: flex;
-            gap: 8px;
+        .admin-main {
+            flex: 1;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--neon-cyan);
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            display: block;
+            text-align: right;
         }
     </style>
 </head>
@@ -105,122 +104,85 @@ if (isset($_GET['edit_id'])) {
     <?php require_once 'navbar.php'; ?>
 
     <div class="container" style="padding-top: 2rem;">
-        <h1 style="margin-bottom: 2rem;">Contact <span style="color: var(--neon-cyan);">Management</span> Panel</h1>
+        <div class="admin-layout">
+            <aside class="admin-sidebar" style="display: none;">
+                <!-- Hidden for now but structured for the 'extra' requirement -->
+                <h3 style="font-size: 1rem; margin-bottom: 1.5rem;">ADMIN PANEL</h3>
+                <a href="index.php" class="sidebar-link">Dashboard</a>
+                <a href="admin_contact.php" class="sidebar-link active">Manage Contact</a>
+            </aside>
 
-        <?php if ($message): ?>
-            <div class="alert alert-success">
-                <?= $message ?>
-            </div>
-        <?php endif; ?>
-        <?php if ($error): ?>
-            <div class="alert alert-error">
-                <?= $error ?>
-            </div>
-        <?php endif; ?>
+            <main class="admin-main">
+                <header style="margin-bottom: 2rem;">
+                    <h1>Edit <span style="color: var(--neon-cyan);">Contact Info</span></h1>
+                    <p style="color: var(--text-secondary);">Manage the official store information displayed to
+                        customers.</p>
+                </header>
 
-        <div class="admin-grid">
-            <!-- Form Layer -->
-            <div class="form-container" style="margin: 0; max-width: 100%;">
-                <h3>
-                    <?= $edit_contact ? 'Edit existing' : 'Add new' ?> Contact Info
-                </h3>
-                <form method="POST" action="admin_contact.php">
-                    <input type="hidden" name="action" value="<?= $edit_contact ? 'edit' : 'add' ?>">
-                    <?php if ($edit_contact): ?>
-                        <input type="hidden" name="id" value="<?= $edit_contact['id'] ?>">
-                    <?php endif; ?>
-
-                    <div class="form-group">
-                        <label>Store Name *</label>
-                        <input type="text" name="store_name" value="<?= $edit_contact['store_name'] ?? '' ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" name="email" value="<?= $edit_contact['email'] ?? '' ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Phone *</label>
-                        <input type="text" name="phone" value="<?= $edit_contact['phone'] ?? '' ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Street Address *</label>
-                        <textarea name="address" rows="3" required><?= $edit_contact['address'] ?? '' ?></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Business Hours</label>
-                        <input type="text" name="hours" value="<?= $edit_contact['hours'] ?? '' ?>"
-                            placeholder="e.g. Mon-Fri 9AM-6PM">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Social Media Links</label>
-                        <textarea name="social_links" rows="2"
-                            placeholder="Discord, Twitter, etc."><?= $edit_contact['social_links'] ?? '' ?></textarea>
-                    </div>
-
-                    <div style="display: flex; gap: 10px;">
-                        <button type="submit" class="simple-btn">
-                            <?= $edit_contact ? 'Update Record' : 'Save Contact' ?>
-                        </button>
-                        <?php if ($edit_contact): ?>
-                            <a href="admin_contact.php" class="simple-btn btn-secondary">Cancel</a>
-                        <?php endif; ?>
-                    </div>
-                </form>
-            </div>
-
-            <!-- List Layer -->
-            <div class="data-table-container">
-                <h3>Location History</h3>
-                <?php if (empty($contacts)): ?>
-                    <p style="color: var(--text-secondary); padding: 1rem;">No contact records found.</p>
-                <?php else: ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Store</th>
-                                <th>Contact</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($contacts as $c): ?>
-                                <tr>
-                                    <td>
-                                        <div style="font-weight: 700;">
-                                            <?= htmlspecialchars($c['store_name']) ?>
-                                        </div>
-                                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                                            <?= htmlspecialchars(substr($c['address'], 0, 30)) ?>...
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem;">
-                                        <?= htmlspecialchars($c['email']) ?><br>
-                                        <?= htmlspecialchars($c['phone']) ?>
-                                    </td>
-                                    <td>
-                                        <div class="action-btns">
-                                            <a href="?edit_id=<?= $c['id'] ?>" class="btn"
-                                                style="padding: 5px 10px; font-size: 0.75rem;">Edit</a>
-                                            <form method="POST" onsubmit="return confirm('Really delete this location?');"
-                                                style="display:inline;">
-                                                <input type="hidden" name="action" value="delete">
-                                                <input type="hidden" name="id" value="<?= $c['id'] ?>">
-                                                <button type="submit" class="btn btn-danger"
-                                                    style="padding: 5px 10px; font-size: 0.75rem;">Del</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                <?php if ($message): ?>
+                    <div class="alert alert-success"><?= $message ?></div>
                 <?php endif; ?>
-            </div>
+                <?php if ($error): ?>
+                    <div class="alert alert-error"><?= $error ?></div>
+                <?php endif; ?>
+
+                <?php if ($contact): ?>
+                    <div class="form-container" style="margin: 0; max-width: 800px;">
+                        <form method="POST" action="admin_contact.php" id="contactForm">
+                            <input type="hidden" name="action" value="update">
+                            <input type="hidden" name="id" value="<?= $contact['id'] ?>">
+
+                            <div class="form-group">
+                                <label>Store Name *</label>
+                                <input type="text" name="store_name" value="<?= htmlspecialchars($contact['store_name']) ?>"
+                                    required>
+                            </div>
+
+                            <div class="admin-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div class="form-group">
+                                    <label>Support Email *</label>
+                                    <input type="email" name="email" value="<?= htmlspecialchars($contact['email']) ?>"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="text" name="phone" value="<?= htmlspecialchars($contact['phone']) ?>"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Physical Address *</label>
+                                <textarea name="address" rows="3"
+                                    required><?= htmlspecialchars($contact['address']) ?></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Business Hours</label>
+                                <input type="text" name="hours" value="<?= htmlspecialchars($contact['hours']) ?>"
+                                    placeholder="e.g. Mon-Fri 9AM-10PM">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Social Media Links</label>
+                                <textarea name="social_links" rows="2"
+                                    placeholder="Discord: link, Twitter: @handle"><?= htmlspecialchars($contact['social_links']) ?></textarea>
+                            </div>
+
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+                                <button type="submit" class="simple-btn"
+                                    onclick="return confirm('Are you sure you want to save these changes?');">Update
+                                    Contact</button>
+                                <span class="timestamp">Last Updated:
+                                    <?= date('M j, Y - H:i', strtotime($contact['last_updated'])) ?></span>
+                            </div>
+                        </form>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-error">No contact records found. Please run database setup.</div>
+                <?php endif; ?>
+            </main>
         </div>
     </div>
 </body>
