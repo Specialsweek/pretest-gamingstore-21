@@ -30,13 +30,13 @@ if (!$product) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="padding-top: 0;">
         <header class="header-container">
-            <h1 style="margin: 0; font-family: 'Orbitron'; font-size: 1.5rem; color: var(--neon-cyan);">MIRAI GEAR</h1>
-            <div>
-                <a href="cart.php" class="simple-btn" style="margin-right: 10px;">Cart</a>
+            <h1 class="logo">MIRAI GEAR</h1>
+            <div class="header-actions">
+                <a href="cart.php" class="simple-btn">Cart</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="logout.php" class="simple-btn">Logout</a>
+                    <a href="logout.php" class="simple-btn btn-secondary">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="simple-btn">Login</a>
                 <?php endif; ?>
